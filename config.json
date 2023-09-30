@@ -1,0 +1,11 @@
+{
+    "bridge_ip": "192.168.0.5",
+    "color_coordinates": {
+        "BLUE": [0.10, 0.05],
+        "RED": [0.65, 0.3],
+        "GREEN": [0.1, 0.6],
+        "YELLOW": [0.42, 0.5]
+    },
+    "brightness": 254,
+    "transition_time": 50
+}
