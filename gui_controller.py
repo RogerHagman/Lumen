@@ -5,19 +5,43 @@ from hue_controller import HueController
 
 class PowerControlFrame(ttk.Frame):
     """Frame containing controls for turning lights on and off."""
+    
+    # Define constants
+    CANVAS_WIDTH = 80
+    CANVAS_HEIGHT = 80
+    TOGGLE_TEXT_X = CANVAS_WIDTH // 2
+    TOGGLE_TEXT_Y = CANVAS_HEIGHT // 2
+
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
         self.is_on = False  # A flag to keep track of light status
 
-        self.light_switch_label = ttk.Label(self, text="Light Switch", justify='center')
-        self.light_switch_label.grid(row=0, column=0, columnspan=2, pady=5, padx=0)
+        self.light_switch_label = \
+            ttk.Label(self, text="Light Switch", justify='center')
 
-        self.canvas = tk.Canvas(self, width=80, height=80, bg="black", highlightthickness=1)
-        self.toggle_button = self.canvas.create_rectangle(5, 5, 75, 75, fill="red", tags="toggle")
+        self.light_switch_label.grid(
+            row=0, column=0, columnspan=2, pady=5, padx=0)
+
+        self.canvas = tk.Canvas(self, width=self.CANVAS_WIDTH, 
+                                height=self.CANVAS_HEIGHT, 
+                                bg="black", 
+                                highlightthickness=1)
+
+        self.toggle_button = \
+            self.toggle_button = self.canvas.create_rectangle(5, 5, 75, 75, 
+                                                              fill="red", 
+                                                              outline="ivory", 
+                                                              width=3, 
+                                                              tags="toggle")
         
         # Add text to the middle of the rectangle
-        self.toggle_text = self.canvas.create_text(40, 40, text="OFF", fill="white", tags="toggle_text")
+        self.toggle_text = self.canvas.create_text(self.TOGGLE_TEXT_X, 
+                                                   self.TOGGLE_TEXT_Y, 
+                                                   text="OFF", 
+                                                   fill="ivory",
+                                                   font=("Arial", 9, "bold"),
+                                                   tags="toggle_text")
         
         self.canvas.grid(row=1, column=0, columnspan=2)
         
@@ -46,7 +70,9 @@ class ColorControlFrame(ttk.Frame):
 
         self.colors = ['RED', 'GREEN', 'BLUE', 'YELLOW']
         self.color_var = tk.StringVar()
-        self.color_dropdown = ttk.Combobox(self, values=self.colors, textvariable=self.color_var)
+        self.color_dropdown = ttk.Combobox(self, 
+                                           values=self.colors, 
+                                           textvariable=self.color_var)
         self.color_dropdown.set('GREEN')
         self.color_button = ttk.Button(self, text="Set Color", command=self.set_color)
 
@@ -92,8 +118,7 @@ class HueControllerGUI(tk.Tk):
         super().__init__()
         style = ttk.Style()
         style.configure('TFrame', background='black')
-        style.configure('TLabel', background='black', foreground='white')  # If you want labels to be styled too.
-        self.controller = controller
+        style.configure('TLabel', background='black', foreground='ivory')
         self.configure(bg="black")
         self.power_frame = PowerControlFrame(self, controller)
         self.color_frame = ColorControlFrame(self, controller)
