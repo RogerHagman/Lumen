@@ -6,6 +6,22 @@
         "GREEN": [0.1, 0.6],
         "YELLOW": [0.42, 0.5]
     },
-    "brightness": 254,
-    "transition_time": 50
+    "brightness_levels": {
+        "VERY_BRIGHT": 254,
+        "BRIGHT": 200,
+        "NEUTRAL": 150,
+        "DIM": 100,
+        "VERY_DIM": 50
+    },
+    "default_brightness": "NEUTRAL",
+    "transition_times": {
+        "NONE": 0,
+        "VERY_SHORT": 10,
+        "SHORT": 30,
+        "MEDIUM": 50,
+        "LONG": 100,
+        "VERY_LONG": 300,
+        "EPIC": 3000
+    },
+    "default_transition_time": "NONE"
 }
