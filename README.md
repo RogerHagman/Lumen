@@ -14,6 +14,7 @@ Components:
                     end-users to interact with to control their 
                     Philips Hue lights in an easy, user-friendly 
                     manner.
+  ![image](https://github.com/RogerHagman/Lumen/assets/85133776/83fcbb32-f611-4308-8209-fad7b5fb568e)
 
 Run:
 Execute this script to launch the Lumen Lights ON application. 
@@ -23,7 +24,7 @@ The application will try to find the Bridge automatically but
 for the first execution you may need to press the "link button"
 on the Philips Hue Bridge prior to starting the application.
 
-![image](https://github.com/RogerHagman/Lumen/assets/85133776/83fcbb32-f611-4308-8209-fad7b5fb568e)
+
 
 
 Author: Roger Hagman
