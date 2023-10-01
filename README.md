@@ -24,4 +24,4 @@ for the first execution you may need to press the "link button"
 on the Philips Hue Bridge prior to starting the application.
 
 Author: Roger Hagman
-email: rogerhagman84@gmail.com
+Email: rogerhagman84@gmail.com
