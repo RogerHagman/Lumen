@@ -29,38 +29,6 @@ class PowerControlFrame(ttk.Frame):
     TOGGLE_TEXT_Y = CANVAS_HEIGHT // 2
 
     def __init__(self, parent, controller: HueController):
-        """
-        Initialize the PowerControlFrame.
-
-        This frame provides controls for toggling the state of the
-        lights (on/off). It uses a canvas displaying a button, 
-        showing the current state of the light, 
-        visually represented as a green rectangle for ON that 
-        alternates to a red color for OFF. When clicked, 
-        the state of the light is toggled.
-
-        Parameters:
-        - parent: The parent widget.
-        - controller (HueController): The controller responsible for 
-                                      managing the lights 
-                                      (This is where an instance of the
-                                      ConfigManager and the Bridge 
-                                      can be accessed).
-
-        Attributes:
-        - controller (HueController): An instance of the HueController
-                                      to manage the lights.
-        - is_on (bool): Flag indicating lights ON(True) or OFF(False).
-        - light_switch_label (ttk.Label): A label displaying the text 
-                                          "Light Switch".
-        - canvas (tk.Canvas): The canvas displaying the 
-                              visual representation of 
-                              the light's state.
-        - toggle_button: A rectangle displayed on the canvas acting as
-                         a toggle button for Turning lights ON/OFF.
-        - toggle_text: Text in the canvas displaying the current state
-                       of the light ("ON" or "OFF").
-        """
         super().__init__(parent)
 
         # Singleton instance of the hue controller
