@@ -4,8 +4,10 @@
         "BLUE": [0.10, 0.05],
         "RED": [0.65, 0.3],
         "GREEN": [0.1, 0.6],
-        "YELLOW": [0.42, 0.5]
+        "YELLOW": [0.42, 0.5],
+        "WHITE": [0.5, 0.5]
     },
+    "default_brightness": 150,
     "brightness_levels": {
         "VERY_BRIGHT": 254,
         "BRIGHT": 200,
@@ -13,7 +15,7 @@
         "DIM": 100,
         "VERY_DIM": 50
     },
-    "default_brightness": "NEUTRAL",
+    
     "transition_times": {
         "NONE": 0,
         "VERY_SHORT": 10,

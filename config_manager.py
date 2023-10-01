@@ -26,9 +26,15 @@ class ConfigManager(metaclass=SingletonMeta):
         return self.get_setting("color_coordinates").get(color_name)
 
     def get_brightness(self, label="NEUTRAL"):
+
+        #Using the ConfigManager to grab a value from JSON
         brightness_levels = self.get_setting("brightness_levels", {})
-        return brightness_levels.get(label, 150)
+        # Returns the default value if nothing specified
+        default_brightness = self.get_setting("default_brightness")
+        return brightness_levels.get(label, default_brightness) 
     
     def get_transition_time(self, label="SHORT"):
         transition_times = self.get_setting("transition_times", {})
-        return transition_times.get(label, 0) # Default to None if not found.
+        
+        # Defaults  to return None if not found.
+        return transition_times.get(label, 0) 

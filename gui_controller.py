@@ -6,16 +6,20 @@ from hue_controller import HueController
 class PowerControlFrame(ttk.Frame):
     """Frame containing controls for turning lights on and off."""
     
-    # Define constants
+    # CONSTANTS
+
     CANVAS_WIDTH = 80
     CANVAS_HEIGHT = 80
+    # Dynamicly splitting the canvas in half to center the text 
+    # helps with responsiveness.
     TOGGLE_TEXT_X = CANVAS_WIDTH // 2
     TOGGLE_TEXT_Y = CANVAS_HEIGHT // 2
 
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller: HueController):
         super().__init__(parent)
         self.controller = controller
-        self.is_on = False  # A flag to keep track of light status
+        # Boolean flag to keep track of ON/OFF status for lights
+        self.is_on = False  
 
         self.light_switch_label = \
             ttk.Label(self, text="Light Switch", justify='center')
@@ -27,7 +31,8 @@ class PowerControlFrame(ttk.Frame):
                                 height=self.CANVAS_HEIGHT, 
                                 bg="black", 
                                 highlightthickness=1)
-
+        
+        # ON/OFF Toggle button
         self.toggle_button = \
             self.toggle_button = self.canvas.create_rectangle(5, 5, 75, 75, 
                                                               fill="red", 
@@ -35,7 +40,7 @@ class PowerControlFrame(ttk.Frame):
                                                               width=3, 
                                                               tags="toggle")
         
-        # Add text to the middle of the rectangle
+        # Add text to the middle of the ON/OFF rectangle
         self.toggle_text = self.canvas.create_text(self.TOGGLE_TEXT_X, 
                                                    self.TOGGLE_TEXT_Y, 
                                                    text="OFF", 
@@ -50,6 +55,7 @@ class PowerControlFrame(ttk.Frame):
 
     def toggle_lights(self, event=None):
         """Toggle lights based on the current status."""
+
         if self.is_on:
             self.controller._turn_off_lights_group(0)
             self.canvas.itemconfig(self.toggle_button, fill="red")
@@ -64,51 +70,89 @@ class PowerControlFrame(ttk.Frame):
 
 class ColorControlFrame(ttk.Frame):
     """Frame containing controls for setting light color."""
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller: HueController):
         super().__init__(parent)
         self.controller = controller
 
-        self.colors = ['RED', 'GREEN', 'BLUE', 'YELLOW']
+        self.colors = ['RED', 'GREEN', 'BLUE', 'YELLOW', 'WHITE']
         self.color_var = tk.StringVar()
         self.color_dropdown = ttk.Combobox(self, 
                                            values=self.colors, 
                                            textvariable=self.color_var)
-        self.color_dropdown.set('GREEN')
-        self.color_button = ttk.Button(self, text="Set Color", command=self.set_color)
+        self.color_dropdown.set('WHITE')
+        
+        # CTA (Call To Action). Pressing This button executes the current 
+        # state of the dropdown menu.
+        self.color_button = \
+            ttk.Button(self, text="Change Color", command=self.set_color)
 
-        self.color_dropdown.pack(padx=5, pady=10)
-        self.color_button.pack(padx=5, pady=10)
+        # Lamp representation using a Canvas with a circle shape
+        self.lamp_canvas = tk.Canvas(self, width=50, height=50, 
+                                     bg="black", highlightthickness=0)
+        
+        # Color selection will also update the color of the lamp representation
+        self.lamp_representation = \
+            self.lamp_canvas.create_oval(10, 10, 40, 40, fill="WHITE")
+
+        # Grid layout to arrange the diffrent elements of the Widget
+        self.color_dropdown.grid(row=0, column=0, 
+                                 padx=5, pady=10, 
+                                 sticky=tk.W, columnspan=2)
+
+        self.color_button.grid(row=1, column=0, 
+                               padx=5, pady=10, 
+                               sticky=tk.W)
+        
+        self.lamp_canvas.grid(row=1, column=1, 
+                              padx=0, pady=10, 
+                              sticky=tk.W)
 
     def set_color(self):
         color = self.color_var.get()
+        self.lamp_canvas.itemconfig(self.lamp_representation, fill=color)
         self.controller._set_light_settings(0, color=color)
 
 
 class BrightnessControlFrame(ttk.Frame):
     """Frame containing controls for adjusting light brightness."""
-    def __init__(self, parent, controller):
+    
+    def __init__(self, parent, controller: HueController):
         super().__init__(parent)
         self.controller = controller
 
-        self.brightness_slider = ttk.Scale(self, 
-                                           from_=0, 
-                                           to_=254, 
-                                           orient=tk.HORIZONTAL, 
-                                           command=self.set_brightness)
-        self.brightness_slider.set(150)  # Neutral setting
-        self.brightness_slider.pack(pady=10)
+        # Slider Label preferences
+        self.brightness_slider_label = \
+            ttk.Label(self, text="Brightness", justify='center')
+        self.brightness_slider_label.grid(
+            row=0, column=0, columnspan=2, pady=5, padx=0)
+
+        # Slider with a custom style using tk.Scale
+        self.brightness_slider = tk.Scale(self, 
+                                          from_=0, 
+                                          to_=254, 
+                                          orient=tk.HORIZONTAL, 
+                                          command=self.set_brightness,
+                                          troughcolor='black',
+                                          sliderrelief='solid',
+                                          bg='yellow')
+        
+        self.brightness_slider.set(150)  # Neutral Initial setting
+        self.brightness_slider.grid(row=1, column=0, columnspan=2, pady=10)
 
     def set_brightness(self, event):
-        brightness = int(self.brightness_slider.get())
-        label = "NEUTRAL"
-        if brightness >= 200:
-            label = "VERY_BRIGHT"
-        elif brightness >= 150:
-            label = "BRIGHT"
-        elif brightness >= 100:
-            label = "DIM"
-        elif brightness < 100:
-            label = "VERY_DIM"
+        brightness_value = int(self.brightness_slider.get())
+        brightness_levels = self.controller.config.get_setting("brightness_levels")
+        
+        label = "NEUTRAL" # Default label
+
+        # Loops through all the brightness levels (stored in config.json)
+        # And sets brightness to the nearest label using the threshold.
+        for level, threshold in sorted(brightness_levels.items(), 
+                                       key=lambda item: item[1], reverse=True):
+            if brightness_value >= threshold:
+                label = level
+                break
+        
         
         self.controller._set_light_settings(0, brightness=label)
 
@@ -130,5 +174,5 @@ class HueControllerGUI(tk.Tk):
 
 if __name__ == "__main__":
     controller = HueController()
-    app = HueControllerGUI(controller)
-    app.mainloop()
+    gui_app = HueControllerGUI(controller)
+    gui_app.mainloop()
