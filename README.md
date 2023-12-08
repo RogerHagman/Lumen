@@ -10,7 +10,7 @@ Hue lights from desktop using a GUI "Remote Control" interface.
 <td>
 
 ### Components:
-- **HueController**: Responsible for the direct interaction with the 
+- **HueController**</i>: Responsible for the direct interaction with the 
                  Philips Hue Bridge, facilitating commands such as 
                  turning on/off lights, adjusting settings,
                  and managing light groups.
@@ -19,7 +19,7 @@ Hue lights from desktop using a GUI "Remote Control" interface.
                     Philips Hue lights in an easy, user-friendly 
                     manner.
 
-### Run:
+### <b>Run</b>:
 Execute this script to launch the Lumen Lights ON application. 
 
 ### Troubleshooting and issues:
