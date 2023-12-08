@@ -19,7 +19,7 @@ Hue lights from desktop using a GUI "Remote Control" interface.
                     Philips Hue lights in an easy, user-friendly 
                     manner.
 
-### <b>Run</b>:
+### Run:
 Execute this script to launch the Lumen Lights ON application. 
 
 ### Troubleshooting and issues:
