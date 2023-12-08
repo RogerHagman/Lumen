@@ -10,7 +10,7 @@ Hue lights from desktop using a GUI "Remote Control" interface.
 <td>
 
 ### Components:
-- **HueController**</i>: Responsible for the direct interaction with the 
+- **HueController**: Responsible for the direct interaction with the 
                  Philips Hue Bridge, facilitating commands such as 
                  turning on/off lights, adjusting settings,
                  and managing light groups.
